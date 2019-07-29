@@ -1,0 +1,21 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ [[reagent "0.8.1"]]
+ :dev-http {9090 "public"}
+
+ :builds
+ {
+  :app
+    {:target :browser
+    :modules {:main {:init-fn stats-words.core/init}}}
+  :test
+    {:target    :browser-test
+    :test-dir  "resources/public/js/test"
+    :ns-regexp "-test$"
+    :devtools  {:http-port          8021
+                :http-root          "resources/public/js/test"}}}}
