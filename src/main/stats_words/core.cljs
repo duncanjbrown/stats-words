@@ -9,12 +9,12 @@
 
 (defn input-box []
   [:div
-   "Enter words here"
+   "Enter lines:"
    [:textarea {:value @input :on-change #(reset! input (-> % .-target .-value))}]])
 
 (defn output-box []
   [:div
-   "Output"
+   "Output:"
    [:textarea
     {:read-only true
      :value (string/join "\n" @output)}]])
@@ -29,7 +29,9 @@
 
 (defn app []
   [:div#app
-   [:h3 "Stats Song Generator"]
+   [:h2 "Song disorganiser"]
+   [:p
+    "Enter lines of text. Hit 'Transform' to shuffle them."]
    [input-box]
    [button]
    [output-box]])
