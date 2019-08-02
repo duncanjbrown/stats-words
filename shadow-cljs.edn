@@ -11,8 +11,10 @@
  :builds
  {
   :app
-    {:target :browser
-    :modules {:main {:init-fn stats-words.core/init}}}
+  {:target :browser
+   :modules {:main {:init-fn stats-words.core/init}}
+   :release {:output-dir "dist/js"
+             :build-hooks [(stats-words.tools/copy-assets)]}}
   :test
     {:target    :browser-test
     :test-dir  "resources/public/js/test"
