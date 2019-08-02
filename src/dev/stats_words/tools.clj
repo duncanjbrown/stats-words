@@ -2,11 +2,6 @@
   (:require [shadow.cljs.devtools.api :as shadow]
             [clojure.java.io :as io]))
 
-(defn start-repl! []
-  (shadow.cljs.devtools.api/watch :test)
-  (shadow.cljs.devtools.api/watch :app)
-  (shadow.cljs.devtools.api/nrepl-select :app))
-
 (defn copy-assets
   {:shadow.build/stage :flush}
   [build-state & args]
