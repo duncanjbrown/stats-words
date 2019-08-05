@@ -5,7 +5,7 @@
 
 (defonce input (r/atom ""))
 (defonce output (r/atom ""))
-(defonce options (r/atom {:verses 1}))
+(defonce options (r/atom {:verse-count 4 :line-count 4}))
 
 (defn input-box []
   [:div
@@ -21,20 +21,37 @@
      :value (string/join "\n" @output)}]])
 
 (defn stats-transform [input options]
-  (-> input
-      string/split-lines
-      transform/shuffle-lines))
+  (->> input
+       string/split-lines
+       transform/shuffle-lines
+       (transform/create-verses (js/parseInt (:verse-count options)) (js/parseInt (:line-count options)))))
+
+(defn numeric-options [min max selected]
+  (map (fn [num]
+         (if (= num (js/parseInt selected))
+           (vector :option {:selected true :value num} num)
+           (vector :option {:value num} num)))
+       (range min max)))
+
+(defn numeric-selector [description max option-key]
+  [:label
+   description
+   (into [:select {:on-change #(swap! options assoc option-key (-> % .-target .-value))}]
+         (numeric-options 1 max (option-key @options)))])
 
 (defn button []
   [:button {:on-click #(reset! output (stats-transform @input @options))} "Transform"])
 
+(defn controls []
+  [:div
+   [numeric-selector "Number of verses" 20 :verse-count]
+   [numeric-selector "Number of lines per verse" 10 :line-count]
+   [button]])
+
 (defn app []
   [:div#app
-   [:h2 "Song disorganiser"]
-   [:p
-    "Enter lines of text. Hit 'Transform' to shuffle them."]
    [input-box]
-   [button]
+   [controls]
    [output-box]])
 
 (defn ^:dev/after-load mount []
