@@ -17,6 +17,7 @@
    "Output:"
    [:textarea
     {:read-only true
+     :id "output"
      :value (string/join "\n" @output)}]])
 
 (defn stats-transform [input options]
